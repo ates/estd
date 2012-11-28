@@ -1,0 +1,5 @@
+{application, estd, [
+    {descriptiom, "Erlang useful functions"},
+    {vsn, "0.0.1"},
+    {applications, [kernel, stdlib]}
+]}.

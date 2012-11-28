@@ -1,6 +1,6 @@
 -module(estd_datetime).
 
--export([midnight/0, uptime/0, timestamp/1]).
+-export([midnight/0, uptime/0, timestamp/1, timestamp/2]).
 
 %% @doc Tell how many seconds left till midnight.
 -spec midnight() -> non_neg_integer().
@@ -15,12 +15,12 @@ uptime() ->
     calendar:seconds_to_daystime(erlang:trunc(T / 1000)).
 
 %% @doc Returns the elapsed time since
-%% 00:00 GMT, January 1, 1970 in seconds or milliseconds
+%% 00:00 GMT, January 1, 1970 in seconds or milliseconds.
 -spec timestamp(sec | msec) -> non_neg_integer().
 timestamp(Measure) ->
-    Timestamp = os:timestamp(),
-    timestamp(Measure, Timestamp).
+    timestamp(Measure, os:timestamp()).
 
+%% @doc Converts the timestamp to seconds or milliseconds.
 -spec timestamp(sec | msec, erlang:timestamp()) -> non_neg_integer().
 timestamp(sec, {MegaSecs, Secs, _MicroSecs}) ->
     MegaSecs * 1000000 + Secs;

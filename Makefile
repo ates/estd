@@ -6,4 +6,10 @@ compile:
 test:
 	@$(REBAR) xref eunit
 
-.PHONY: test
+clean:
+	@$(REBAR) clean
+
+doc:
+	@$(REBAR) doc
+
+.PHONY: doc test

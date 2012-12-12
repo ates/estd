@@ -2,7 +2,10 @@
 
 -export([is_macaddr/1]).
 
--define(MAC_REGEXP, "^([0-9a-f]{2}([:-]|$)){6}|^([0-9a-f]{6}([:-]|$)){2}|^([0-9a-f]{4}(\.|$)){3}$").
+-define(MAC_FMT1, "^([0-9a-f]{2}([:-]|$)){6}").
+-define(MAC_FMT2, "^([0-9a-f]{6}([:-]|$)){2}").
+-define(MAC_FMT3, "^([0-9a-f]{4}(\.|$)){3}$").
+-define(MAC_REGEXP, string:join([?MAC_FMT1, ?MAC_FMT2, ?MAC_FMT3], "|")).
 
 %% @doc Checks is HW address is valid.
 %% Accepts the HW address in the following formats:

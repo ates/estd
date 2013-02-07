@@ -1,6 +1,6 @@
 -module(estd_inet).
 
--export([is_macaddr/1]).
+-export([is_macaddr/1, ip2long/1]).
 
 -define(MAC_FMT1, "^([0-9a-f]{2}([:-]|$)){6}").
 -define(MAC_FMT2, "^([0-9a-f]{6}([:-]|$)){2}").
@@ -17,3 +17,7 @@ is_macaddr(Address) ->
         match -> true;
         _ -> false
     end.
+
+-spec ip2long(inet:ip_address()) -> non_neg_integer().
+ip2long({A, B, C, D}) ->
+    (A bsl 24) bor (B bsl 16) bor (C bsl 8) bor D.

@@ -11,3 +11,6 @@ is_macaddr_test() ->
     ?assertEqual(estd_inet:is_macaddr("08002b:010203"), true),
     ?assertEqual(estd_inet:is_macaddr("08002b-010203"), true),
     ?assertEqual(estd_inet:is_macaddr("0800.2b01.0203"), true).
+
+ip2long_test() ->
+    ?assertEqual(estd_inet:ip2long({192, 168, 1, 1}), 3232235777).

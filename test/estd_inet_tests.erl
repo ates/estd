@@ -14,3 +14,7 @@ is_macaddr_test() ->
 
 ip2long_test() ->
     ?assertEqual(estd_inet:ip2long({192, 168, 1, 1}), 3232235777).
+
+proto_test() ->
+    ?assertEqual(estd_inet:proto({1, 1, 1, 1}), inet),
+    ?assertEqual(estd_inet:proto({0, 0, 0, 0, 0, 0, 0, 1}), inet6).

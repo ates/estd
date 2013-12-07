@@ -2,7 +2,7 @@
 
 -export([calc/1, is_valid/2]).
 
--define(CRC16DEF, [
+-define(CRC16DEF, {
     16#0000, 16#C0C1, 16#C181, 16#0140, 16#C301, 16#03C0, 16#0280, 16#C241,
     16#C601, 16#06C0, 16#0780, 16#C741, 16#0500, 16#C5C1, 16#C481, 16#0440,
     16#CC01, 16#0CC0, 16#0D80, 16#CD41, 16#0F00, 16#CFC1, 16#CE81, 16#0E40,
@@ -35,7 +35,7 @@
     16#4E00, 16#8EC1, 16#8F81, 16#4F40, 16#8D01, 16#4DC0, 16#4C80, 16#8C41,
     16#4400, 16#84C1, 16#8581, 16#4540, 16#8701, 16#47C0, 16#4680, 16#8641,
     16#8201, 16#42C0, 16#4380, 16#8341, 16#4100, 16#81C1, 16#8081, 16#4040
-]).
+}).
 
 -spec calc([integer()] | binary()) -> non_neg_integer(). 
 calc(Data) when is_list(Data) ->
@@ -51,9 +51,5 @@ is_valid(Data, CRC) ->
 calc(<<>>, CRC) -> CRC;
 calc(<<Value:8, Rest/binary>>, CRC) when Value =< 255->
    Index = (CRC bxor Value) band 255,
-   NewCRC = (CRC bsr 8) bxor crc_index(Index),
+   NewCRC = (CRC bsr 8) bxor element(Index + 1, ?CRC16DEF),
    calc(Rest, NewCRC).
-
-%% @private
-crc_index(N) ->
-   lists:nth(N + 1, ?CRC16DEF).

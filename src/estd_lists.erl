@@ -3,6 +3,8 @@
 -export([merge/2]).
 -export([to_hex/1]).
 -export([to_hex_string/1]).
+-export([get_value/2]).
+-export([get_value/3]).
 
 %% @doc Returns the list formed by merging List1 and List2 with replacing
 %% the values of even elements from List2 to List1, also, adds the new
@@ -31,6 +33,17 @@ to_hex_string(Binary) when is_binary(Binary) ->
 to_hex_string([]) -> [];
 to_hex_string([H | T]) ->
     to_hex(H) ++ to_hex_string(T).
+
+get_value(Key, List) ->
+    get_value(Key, List, undefined).
+
+get_value(Key, List, Default) ->
+    case lists:keyfind(Key, 1, List) of
+        false ->
+            Default;
+        {Key, Value} ->
+            Value
+    end.
 
 %% Internal functions
 hex(N) when N < 10 -> $0 + N;

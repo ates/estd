@@ -13,3 +13,8 @@ to_hex_test() ->
 to_hex_string_test() ->
     ?assertEqual(estd_lists:to_hex_string(<<1,2,15>>), "01020f"),
     ?assertEqual(estd_lists:to_hex_string([1,2,15]), "01020f").
+
+get_value_test() ->
+    ?assertEqual(estd_lists:get_value(key, [{key, 1}]), 1),
+    ?assertEqual(estd_lists:get_value(key, [{foo, 1}]), undefined),
+    ?assertEqual(estd_lists:get_value(key, [{foo, 1}], error), error).

@@ -6,6 +6,7 @@
 -export([proto/1]).
 -export([broadcast/2]).
 -export([range/2]).
+-export([range2list/2]).
 
 -define(MAC_FMT1, "^([0-9a-f]{2}([:-]|$)){6}").
 -define(MAC_FMT2, "^([0-9a-f]{6}([:-]|$)){2}").
@@ -57,6 +58,12 @@ range(Address, NetMask) ->
         _ ->
             {ntoa((IP band Mask) + 1), ntoa(Broadcast - 1)}
     end.
+
+%% @doc Return the list of an IP addresses in the network
+-spec range2list(IP :: inet:ip_address(), Mask :: 0..32 | inet:ip_address()) -> [inet:ip_address()].
+range2list(Address, NetMask) ->
+    {From, To} = range(Address, NetMask),
+    [ntoa(I) || I <- lists:seq(aton(From), aton(To))].
 
 %% Internal functions
 -spec parse_address(IP :: inet:ip_address(), Mask :: 0..32 | inet:ip_address()) -> {0..4294967295, 0..4294967295}.

@@ -21,3 +21,11 @@ ntoa_test() ->
 proto_test() ->
     ?assertEqual(estd_inet:proto({1, 1, 1, 1}), inet),
     ?assertEqual(estd_inet:proto({0, 0, 0, 0, 0, 0, 0, 1}), inet6).
+
+broadcast_test() ->
+    ?assertEqual(estd_inet:broadcast({1, 1, 1, 1}, 16), {1, 1, 255, 255}).
+
+range_test() ->
+    ?assertEqual(estd_inet:range({1, 1, 1, 1}, 16), {{1, 1, 0, 1}, {1, 1, 255, 254}}),
+    ?assertEqual(estd_inet:range({1, 1, 1, 1}, 31), {{1, 1, 1, 0}, {1, 1, 1, 1}}),
+    ?assertEqual(estd_inet:range({1, 1, 1, 1}, 32), {{1, 1, 1, 1}, {1, 1, 1, 1}}).

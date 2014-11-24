@@ -1,6 +1,9 @@
 -module(estd_inet).
 
--export([is_macaddr/1, ip2long/1, proto/1]).
+-export([is_macaddr/1]).
+-export([aton/1]).
+-export([ntoa/1]).
+-export([proto/1]).
 
 -define(MAC_FMT1, "^([0-9a-f]{2}([:-]|$)){6}").
 -define(MAC_FMT2, "^([0-9a-f]{6}([:-]|$)){2}").
@@ -18,10 +21,17 @@ is_macaddr(Address) ->
         _ -> false
     end.
 
--spec ip2long(inet:ip_address()) -> non_neg_integer().
-ip2long({A, B, C, D}) ->
+%% @doc Return the numeric value of an IP address.
+-spec aton(inet:ip_address()) -> non_neg_integer().
+aton({A, B, C, D}) ->
     (A bsl 24) bor (B bsl 16) bor (C bsl 8) bor D.
 
+%% @doc Return the IP address from a numeric value.
+%% Limitation: support only IPv4
+ntoa(IP) when IP =< 4294967295 ->
+    {(IP div 16777216) rem 256, (IP div 65536) rem 256, (IP div 256) rem 256, IP rem 256}.
+
+%% @doc Returns the type of IP address.
 -spec proto(inet:ip_address()) -> inet:address_family().
 proto(Address) when tuple_size(Address) == 4 -> inet;
 proto(Address) when tuple_size(Address) == 8 -> inet6.

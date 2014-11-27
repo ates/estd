@@ -7,6 +7,7 @@
 -export([broadcast/2]).
 -export([range/2]).
 -export([range2list/2]).
+-export([in_range/2]).
 
 -define(MAC_FMT1, "^([0-9a-f]{2}([:-]|$)){6}").
 -define(MAC_FMT2, "^([0-9a-f]{6}([:-]|$)){2}").
@@ -64,6 +65,12 @@ range(Address, NetMask) ->
 range2list(Address, NetMask) ->
     {From, To} = range(Address, NetMask),
     [ntoa(I) || I <- lists:seq(aton(From), aton(To))].
+
+-spec in_range(IP :: inet:ip_address(), {Network :: inet:ip_address(), Mask :: 0..32 | inet:ip_address()}) -> boolean().
+in_range(IP, {Network, Mask}) ->
+    {Network0, Mask0} = parse_address(Network, Mask),
+    (aton(IP) band Mask0) == (Network0 band Mask0).
+
 
 %% Internal functions
 -spec parse_address(IP :: inet:ip_address(), Mask :: 0..32 | inet:ip_address()) -> {0..4294967295, 0..4294967295}.

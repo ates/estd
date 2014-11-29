@@ -5,6 +5,7 @@
 -export([to_str/1]).
 -export([to_int/1]).
 -export([to_atom/1]).
+-export([to_type/2]).
 
 -spec to_ip(IP :: tuple() | binary() | string()) -> inet:ip_address().
 to_ip({A, B, C, D} = IP) when
@@ -51,3 +52,17 @@ to_atom(Data) when is_binary(Data) ->
     binary_to_atom(Data, latin1);
 to_atom(Data) when is_integer(hd(Data)) ->
     list_to_atom(Data).
+
+to_type(Type, Data) ->
+    case Type of
+        atom ->
+            to_atom(Data);
+        bin ->
+            to_bin(Data);
+        str ->
+            to_str(Data);
+        int ->
+            to_int(Data);
+        ip ->
+            to_ip(Data)
+    end.

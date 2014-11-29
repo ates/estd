@@ -60,12 +60,13 @@ range(Address, NetMask) ->
             {ntoa((IP band Mask) + 1), ntoa(Broadcast - 1)}
     end.
 
-%% @doc Return the list of an IP addresses in the network
+%% @doc Return the list of an IP addresses in the network.
 -spec range2list(IP :: inet:ip_address(), Mask :: 0..32 | inet:ip_address()) -> [inet:ip_address()].
 range2list(Address, NetMask) ->
     {From, To} = range(Address, NetMask),
     [ntoa(I) || I <- lists:seq(aton(From), aton(To))].
 
+%% @doc Check whether an IP belongs to a particular network.
 -spec in_range(IP :: inet:ip_address(), {Network :: inet:ip_address(), Mask :: 0..32 | inet:ip_address()}) -> boolean().
 in_range(IP, {Network, Mask}) ->
     {Network0, Mask0} = parse_address(Network, Mask),

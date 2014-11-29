@@ -32,3 +32,8 @@ range_test() ->
 
 range2list_test() ->
     ?assertEqual(estd_inet:range2list({192,168,0,1}, 31), [{192,168,0,0},{192,168,0,1}]).
+
+in_range_test() ->
+    ?assertEqual(estd_inet:in_range({10, 10, 0, 1}, {{0, 0, 0, 0}, 0}), true),
+    ?assertEqual(estd_inet:in_range({10, 10, 0, 1}, {{0, 0, 0, 0}, {0, 0, 0, 0}}), true),
+    ?assertEqual(estd_inet:in_range({10, 10, 0, 1}, {{192, 168, 0, 0}, 24}), false).

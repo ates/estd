@@ -64,5 +64,7 @@ to_type(Type, Data) ->
         int ->
             to_int(Data);
         ip ->
-            to_ip(Data)
+            to_ip(Data);
+        any ->
+            Data
     end.
